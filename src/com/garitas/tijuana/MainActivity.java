@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
@@ -19,12 +20,15 @@ public class MainActivity extends Activity {
        
         //------------------------------------------
         Configura();
-        
-        if (HayInternet())
-        	Carga();
-        else
-        	Toasty("Ups, no hay internet.");
+        Carga();
     }
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		Limpia();
+        Carga();
+	}
 
 	private boolean HayInternet() {
 		try {
@@ -32,7 +36,7 @@ public class MainActivity extends Activity {
 			NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
 	  		return activeNetworkInfo != null;
 		} catch (Exception e) {
-			Toasty("Error" + e.getMessage());
+			Toasty("Ups acaba de ocurrir un error. " + e.getMessage());
 		}
 		return false;
 	}
@@ -44,18 +48,26 @@ public class MainActivity extends Activity {
 	private void Configura() {
 		wv = (WebView) findViewById(R.id.webview);
 		wv.getSettings().setJavaScriptEnabled(true);
+		wv.setWebViewClient(new WebViewClient(){
+			@Override
+			public void onPageFinished(WebView view, String url) {
+				super.onPageFinished(view, url);
+				Toasty("Listo!");
+			}
+		});
 	}
 
 	private void Carga() {
-		wv.loadUrl("http://garitas-tijuana.com");
-		wv.scrollTo(0, 0);
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-		Limpia();
-        Carga();
+		Toasty("Espera, estamos cargando la informacion mas reciente y dependemos de la velocidad de tu conexión.");
+		if (HayInternet())
+		{	
+			wv.loadUrl("http://garitas-tijuana.com");
+			wv.scrollTo(0, 0);
+		}
+        else
+        {
+        	Toasty("Ups, no hay internet.");
+        }
 	}
 
 	private void Limpia() {
