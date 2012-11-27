@@ -1,33 +1,27 @@
 package com.garitas.tijuana;
 
+import org.apache.cordova.DroidGap;
+
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.app.Activity;
 import android.content.Context;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
-public class MainActivity extends Activity {
-	
-	WebView wv;
+public class MainActivity extends DroidGap {
 
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-       
-        //------------------------------------------
-        Configura();
+        //setContentView(R.layout.activity_main);
         Carga();
     }
 	
 	@Override
 	public void onResume() {
 		super.onResume();
-		Limpia();
-        Carga();
 	}
 
 	private boolean HayInternet() {
@@ -42,40 +36,16 @@ public class MainActivity extends Activity {
 	}
 
 	private void Toasty(String message) {
-		Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+		Toast.makeText(getApplicationContext(), message, 10).show();
 	}
 
-	private void Configura() {
-		wv = (WebView) findViewById(R.id.webview);
-		wv.getSettings().setJavaScriptEnabled(true);
-		wv.setWebViewClient(new WebViewClient(){
-			@Override
-			public void onPageFinished(WebView view, String url) {
-				super.onPageFinished(view, url);
-				Toasty("Listo!");
-			}
-		});
-	}
 
 	private void Carga() {
-		Toasty("Espera, estamos cargando la informacion mas reciente y dependemos de la velocidad de tu conexión.");
 		if (HayInternet())
-		{	
-			wv.loadUrl("http://garitas-tijuana.com");
-			wv.scrollTo(0, 0);
-		}
+			super.loadUrl("file:///android_assets/www/index.html",5000);
         else
         {
         	Toasty("Ups, no hay internet.");
         }
 	}
-
-	private void Limpia() {
-		wv.clearView();
-	}
-	
-	
-  
-
-    
 }
