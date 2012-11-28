@@ -1,13 +1,11 @@
 package com.garitas.tijuana;
 
-import org.apache.cordova.DroidGap;
+import org.apache.cordova.*;
 
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.content.Context;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 public class MainActivity extends DroidGap {
@@ -15,14 +13,9 @@ public class MainActivity extends DroidGap {
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_main);
-        Carga();
+        //Carga();
+        super.loadUrl("file:///android_asset/www/index.html");
     }
-	
-	@Override
-	public void onResume() {
-		super.onResume();
-	}
 
 	private boolean HayInternet() {
 		try {
@@ -36,13 +29,13 @@ public class MainActivity extends DroidGap {
 	}
 
 	private void Toasty(String message) {
-		Toast.makeText(getApplicationContext(), message, 10).show();
+		Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
 	}
 
 
 	private void Carga() {
 		if (HayInternet())
-			super.loadUrl("file:///android_assets/www/index.html",5000);
+			super.loadUrl("file:///android_asset/www/index.html",5000);
         else
         {
         	Toasty("Ups, no hay internet.");
