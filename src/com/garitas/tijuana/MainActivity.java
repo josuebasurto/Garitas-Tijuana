@@ -1,44 +1,60 @@
 package com.garitas.tijuana;
 
-import org.apache.cordova.*;
-
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.content.Context;
-import android.widget.Toast;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import com.josuebasurto.Activities.GeneralActivity;
 
-public class MainActivity extends DroidGap {
+public class MainActivity extends GeneralActivity {
 
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //Carga();
-        super.loadUrl("file:///android_asset/www/index.html");
+        setContentView(R.layout.activity_main);
+        
+        Configura();
+        Carga();
     }
-
-	private boolean HayInternet() {
-		try {
-			ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-			NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-	  		return activeNetworkInfo != null;
-		} catch (Exception e) {
-			Toasty("Ups acaba de ocurrir un error. " + e.getMessage());
-		}
-		return false;
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		Limpia();
+        Carga();
 	}
-
-	private void Toasty(String message) {
-		Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+	
+	WebView wv;
+	
+	protected void Configura() {
+		setTag("GARITASTIJUANA");
+		wv = (WebView) findViewById(R.id.webview);
+		wv.getSettings().setJavaScriptEnabled(true);
+		wv.setWebViewClient(new WebViewClient(){
+			@Override
+			public void onPageFinished(WebView view, String url) {
+				super.onPageFinished(view, url);
+				Toasty("Listo!");
+			}
+		});
 	}
-
-
-	private void Carga() {
+	
+	protected void Carga() {
+		Toasty("Espera, estamos cargando la informacion mas reciente y dependemos de la velocidad de tu conexión.");
 		if (HayInternet())
-			super.loadUrl("file:///android_asset/www/index.html",5000);
+		{	
+			String garitas_url = "http://garitas-tijuana.com";
+			setLog("Cargando: " + garitas_url);
+			wv.loadUrl(garitas_url);
+			wv.scrollTo(0, 0);
+		}
         else
         {
         	Toasty("Ups, no hay internet.");
         }
 	}
+	
+	protected void Limpia() {
+		wv.clearView();
+	}
+
 }
