@@ -1,12 +1,17 @@
 package com.garitas.tijuana;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
 import com.josuebasurto.Activities.GeneralActivity;
 
 public class MainActivity extends GeneralActivity {
-
+	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -16,45 +21,74 @@ public class MainActivity extends GeneralActivity {
         Carga();
     }
 	
-	@Override
-	public void onResume() {
-		super.onResume();
+	private void Reload() {
 		Limpia();
         Carga();
 	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.activity_main, menu);
+		return true;
+	}
 	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		setLog("Seleccion " + item.getTitle());
+	    switch (item.getItemId()) {
+	        case R.id.rateApp: rateApp(); return true;
+	        case R.id.share: shareApp(); return true;
+	        case R.id.refresh: Reload(); return true;
+	        default: return super.onOptionsItemSelected(item);
+	    }
+	}
+	
+	private void shareApp() {
+		Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+	    sharingIntent.setType("text/plain");
+	    sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, (String) getText(R.string.message_share) + getString(R.string.url_googleplay_app));
+	    sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, (String) getText(R.string.title_share));
+	    startActivity(Intent.createChooser(sharingIntent, (String) getText(R.string.title_share)));
+	}
+
+	private void rateApp() {
+		Intent intent = new Intent(Intent.ACTION_VIEW);
+		intent.setData(Uri.parse((String) getText(R.string.url_googleplay_marketapp)));
+		startActivity(intent);
+	}
+
 	WebView wv;
 	
 	protected void Configura() {
+		
 		setTag("GARITASTIJUANA");
+		
 		wv = (WebView) findViewById(R.id.webview);
 		wv.getSettings().setJavaScriptEnabled(true);
 		wv.setWebViewClient(new WebViewClient(){
 			@Override
 			public void onPageFinished(WebView view, String url) {
 				super.onPageFinished(view, url);
-				Toasty("Listo!");
+				Toasty((String) getText(R.string.message_termino));
 			}
 		});
 	}
 	
 	protected void Carga() {
-		Toasty("Espera, estamos cargando la informacion mas reciente y dependemos de la velocidad de tu conexión.");
+		Toasty((String) getText(R.string.message_cargando));
 		if (HayInternet())
 		{	
-			String garitas_url = "http://garitas-tijuana.com";
-			setLog("Cargando: " + garitas_url);
-			wv.loadUrl(garitas_url);
+			wv.loadUrl((String) getText(R.string.url_garitastijuana));
 			wv.scrollTo(0, 0);
 		}
         else
         {
-        	Toasty("Ups, no hay internet.");
+        	Toasty((String) getText(R.string.message_nointernet));
         }
 	}
 	
 	protected void Limpia() {
-		wv.clearView();
+		wv.loadUrl((String) getText(R.string.url_blank));
 	}
 
 }

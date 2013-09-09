@@ -17,7 +17,7 @@ public class GeneralActivity extends Activity {
 			NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
 	  		return activeNetworkInfo != null;
 		} catch (Exception e) {
-			Toasty("Ups acaba de ocurrir un error. " + e.getMessage());
+			Toasty("Ups! " + e.getMessage());
 		}
 		return false;
 	}
