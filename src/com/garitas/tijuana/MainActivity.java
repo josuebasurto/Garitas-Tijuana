@@ -1,44 +1,94 @@
 package com.garitas.tijuana;
 
-import org.apache.cordova.*;
-
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.content.Context;
-import android.widget.Toast;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
-public class MainActivity extends DroidGap {
+import com.josuebasurto.Activities.GeneralActivity;
 
+public class MainActivity extends GeneralActivity {
+	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //Carga();
-        super.loadUrl("file:///android_asset/www/index.html");
+        setContentView(R.layout.activity_main);
+        
+        Configura();
+        Carga();
     }
-
-	private boolean HayInternet() {
-		try {
-			ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-			NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-	  		return activeNetworkInfo != null;
-		} catch (Exception e) {
-			Toasty("Ups acaba de ocurrir un error. " + e.getMessage());
-		}
-		return false;
+	
+	private void Reload() {
+		Limpia();
+        Carga();
 	}
 
-	private void Toasty(String message) {
-		Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.activity_main, menu);
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		setLog("Seleccion " + item.getTitle());
+	    switch (item.getItemId()) {
+	        case R.id.rateApp: rateApp(); return true;
+	        case R.id.share: shareApp(); return true;
+	        case R.id.refresh: Reload(); return true;
+	        default: return super.onOptionsItemSelected(item);
+	    }
+	}
+	
+	private void shareApp() {
+		Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+	    sharingIntent.setType("text/plain");
+	    sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, (String) getText(R.string.message_share) + getString(R.string.url_googleplay_app));
+	    sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, (String) getText(R.string.title_share));
+	    startActivity(Intent.createChooser(sharingIntent, (String) getText(R.string.title_share)));
 	}
 
+	private void rateApp() {
+		Intent intent = new Intent(Intent.ACTION_VIEW);
+		intent.setData(Uri.parse((String) getText(R.string.url_googleplay_marketapp)));
+		startActivity(intent);
+	}
 
-	private void Carga() {
+	WebView wv;
+	
+	protected void Configura() {
+		
+		setTag("GARITASTIJUANA");
+		
+		wv = (WebView) findViewById(R.id.webview);
+		wv.getSettings().setJavaScriptEnabled(true);
+		wv.setWebViewClient(new WebViewClient(){
+			@Override
+			public void onPageFinished(WebView view, String url) {
+				super.onPageFinished(view, url);
+				Toasty((String) getText(R.string.message_termino));
+			}
+		});
+	}
+	
+	protected void Carga() {
+		Toasty((String) getText(R.string.message_cargando));
 		if (HayInternet())
-			super.loadUrl("file:///android_asset/www/index.html",5000);
+		{	
+			wv.loadUrl((String) getText(R.string.url_garitastijuana));
+			wv.scrollTo(0, 0);
+		}
         else
         {
-        	Toasty("Ups, no hay internet.");
+        	Toasty((String) getText(R.string.message_nointernet));
         }
 	}
+	
+	protected void Limpia() {
+		wv.loadUrl((String) getText(R.string.url_blank));
+	}
+
 }
