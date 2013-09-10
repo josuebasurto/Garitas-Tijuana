@@ -1,6 +1,13 @@
 package com.garitas.tijuana;
 
+import java.util.Date;
+import java.util.logging.Logger;
+
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
@@ -9,6 +16,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.josuebasurto.Activities.GeneralActivity;
+import com.josuebasurto.common.stringHelper;
 
 public class MainActivity extends GeneralActivity {
 	
@@ -24,6 +32,35 @@ public class MainActivity extends GeneralActivity {
 	private void Reload() {
 		Limpia();
         Carga();
+        RateValidate();
+	}
+
+	private void RateValidate() {
+		if (!getBoolKeyValue(R.string.preferences_rate_notified, false))
+		{			
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		    builder.setTitle(getString(R.string.dialogs_rate_title));
+		    builder.setMessage(getString(R.string.dialogs_rate_message));
+		    builder.setPositiveButton(getString(R.string.dialogs_rate_yes), new DialogInterface.OnClickListener() {
+		        public void onClick(DialogInterface dialog, int which) {
+		            // Do nothing but close the dialog
+		        	rateApp();
+		        	setLog("Question: " + getString(R.string.dialogs_rate_title) + " " + getString(R.string.dialogs_rate_yes));
+		            dialog.dismiss();
+		        }
+		    });
+
+		    builder.setNegativeButton(getString(R.string.dialogs_rate_no), new DialogInterface.OnClickListener() {
+		        @Override
+		        public void onClick(DialogInterface dialog, int which) {
+		        	setLog("Question: " + getString(R.string.dialogs_rate_title) + " " + getString(R.string.dialogs_rate_no));
+		            dialog.dismiss();
+		        }
+		    });
+		    AlertDialog alert = builder.create();
+		    alert.show();
+		    setLog("Question: " + getString(R.string.dialogs_rate_title) + " " + getString(R.string.dialogs_rate_message));
+		}
 	}
 
 	@Override
@@ -46,7 +83,7 @@ public class MainActivity extends GeneralActivity {
 	private void shareApp() {
 		Intent sharingIntent = new Intent(Intent.ACTION_SEND);
 	    sharingIntent.setType("text/plain");
-	    sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, (String) getText(R.string.message_share) + getString(R.string.url_googleplay_app));
+	    sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, (String) getText(R.string.message_share) + " " + getString(R.string.url_googleplay_app));
 	    sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, (String) getText(R.string.title_share));
 	    startActivity(Intent.createChooser(sharingIntent, (String) getText(R.string.title_share)));
 	}
@@ -55,6 +92,8 @@ public class MainActivity extends GeneralActivity {
 		Intent intent = new Intent(Intent.ACTION_VIEW);
 		intent.setData(Uri.parse((String) getText(R.string.url_googleplay_marketapp)));
 		startActivity(intent);
+		
+		setBooleanKeyValue(R.string.preferences_rate_notified, true);
 	}
 
 	WebView wv;

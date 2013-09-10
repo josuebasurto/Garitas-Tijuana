@@ -13,5 +13,10 @@
     <string name="message_termino">Terminó</string>
     
     <string name="title_share">Comparte Garitas Tj</string>
+
+	<string name="dialogs_rate_title">Califica</string>
+	<string name="dialogs_rate_message">Toma un segundo para calificarnos.</string>
+	<string name="dialogs_rate_yes">Claro</string>
+	<string name="dialogs_rate_no">Después</string>
     
 </resources>
