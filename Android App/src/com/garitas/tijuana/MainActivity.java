@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.logging.Logger;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,15 +21,55 @@ import com.josuebasurto.common.stringHelper;
 
 public class MainActivity extends GeneralActivity {
 	
+	/*
+	 * Web View principal
+	 * */
+	WebView wv;
+	/*
+	 * Progress Dialog
+	 * */
+	ProgressDialog pd;
+
+	/*
+	 * Getter de Progress Dialog
+	 * */
+	public ProgressDialog getProgressDialog() {
+		return pd;
+	}
+	
+	/*
+	 * Setter de Progress Dialog
+	 * */
+	public void setProgressDialog(ProgressDialog progressDialog) {
+		pd = progressDialog;
+	}
+
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
+
         Configura();
         Carga();
     }
 	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.activity_main, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		setLog("Seleccion " + item.getTitle());
+	    switch (item.getItemId()) {
+	        case R.id.rateApp: rateApp(); return true;
+	        case R.id.share: shareApp(); return true;
+	        case R.id.refresh: Reload(); return true;
+	        default: return super.onOptionsItemSelected(item);
+	    }
+	}
+
 	private void Reload() {
 		Limpia();
         Carga();
@@ -63,23 +104,6 @@ public class MainActivity extends GeneralActivity {
 		}
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_main, menu);
-		return true;
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		setLog("Seleccion " + item.getTitle());
-	    switch (item.getItemId()) {
-	        case R.id.rateApp: rateApp(); return true;
-	        case R.id.share: shareApp(); return true;
-	        case R.id.refresh: Reload(); return true;
-	        default: return super.onOptionsItemSelected(item);
-	    }
-	}
-	
 	private void shareApp() {
 		Intent sharingIntent = new Intent(Intent.ACTION_SEND);
 	    sharingIntent.setType("text/plain");
@@ -96,8 +120,6 @@ public class MainActivity extends GeneralActivity {
 		setBooleanKeyValue(R.string.preferences_rate_notified, true);
 	}
 
-	WebView wv;
-	
 	protected void Configura() {
 		
 		setTag("GARITASTIJUANA");
@@ -109,6 +131,9 @@ public class MainActivity extends GeneralActivity {
 			public void onPageFinished(WebView view, String url) {
 				super.onPageFinished(view, url);
 				Toasty((String) getText(R.string.message_termino));
+				
+				if(pd!= null)
+					pd.dismiss();
 			}
 		});
 	}
@@ -117,6 +142,13 @@ public class MainActivity extends GeneralActivity {
 		Toasty((String) getText(R.string.message_cargando));
 		if (HayInternet())
 		{	
+			pd = new ProgressDialog(this);
+			pd.setTitle(getString(R.string.message_cargando));
+			pd.setMessage(getString(R.string.message_wait));
+			pd.setCancelable(false);
+			pd.setIndeterminate(true);
+			pd.show();
+			
 			wv.loadUrl((String) getText(R.string.url_garitastijuana));
 			wv.scrollTo(0, 0);
 		}
