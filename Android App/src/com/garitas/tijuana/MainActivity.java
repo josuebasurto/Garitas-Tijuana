@@ -145,8 +145,6 @@ public class MainActivity extends GeneralActivity {
 			pd = new ProgressDialog(this);
 			pd.setTitle(getString(R.string.message_cargando));
 			pd.setMessage(getString(R.string.message_wait));
-			pd.setCancelable(false);
-			pd.setIndeterminate(true);
 			pd.show();
 			
 			wv.loadUrl((String) getText(R.string.url_garitastijuana));
