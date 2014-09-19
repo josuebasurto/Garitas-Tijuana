@@ -18,6 +18,7 @@ import android.webkit.WebViewClient;
 
 import com.josuebasurto.Activities.GeneralActivity;
 import com.josuebasurto.common.stringHelper;
+import com.parse.ParseAnalytics;
 
 public class MainActivity extends GeneralActivity {
 	
@@ -48,6 +49,8 @@ public class MainActivity extends GeneralActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
+        //ParseAnalytics.trackAppOpened(getIntent());
 
         Configura();
         Carga();
@@ -136,6 +139,8 @@ public class MainActivity extends GeneralActivity {
 					pd.dismiss();
 			}
 		});
+		
+		
 	}
 	
 	protected void Carga() {
