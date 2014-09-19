@@ -10,7 +10,7 @@
     <string name="title_activity_main">Garitas Tj</string>
     <string name="title_share">Share Garitas Tj</string>
     
-    <string name="message_cargando">Loading</string>
+    <string name="message_cargando">Loading information</string>
     <string name="message_termino">Finnished</string>
 	<string name="message_nointernet">Ups, no internet</string>
 	<string name="message_gracias">Thank You!</string>
