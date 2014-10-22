@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Garitas Tj</string>
+
+    <string name="menu_refresh_the_lines">Actualiza</string>
+    <string name="menu_settings">¿Que mas?</string>
+    <string name="menu_share_the_love">Comparte App</string>
+    <string name="menu_show_the_love">Califica App</string>
+
+    <string name="message_cargando">Cargando</string>
+    <string name="message_error">Ups!</string>
+    <string name="message_gracias">Gracias!</string>
+    <string name="message_nointernet">Ups, No hay internet?</string>
+    <string name="message_share">Usando Garitas Tj!</string>
+    <string name="message_termino">Terminó</string>
+    <string name="message_wait">Espere</string>
+    
+    <string name="title_share">Comparte Garitas Tj</string>
+
+	<string name="dialogs_rate_title">Califica</string>
+	<string name="dialogs_rate_message">Toma un segundo para calificarnos.</string>
+	<string name="dialogs_rate_yes">Claro</string>
+	<string name="dialogs_rate_no">Después</string>
+    
+</resources>
