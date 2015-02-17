@@ -11,50 +11,29 @@ import android.view.MenuItem;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.josuebasurto.Activities.GeneralActivity;
+import com.josuebasurto.Activities.BaseGeneralActivity;
 
-public class MainActivity extends GeneralActivity {
-	
-	/*
-	 * Web View principal
-	 * */
-	WebView wv;
-	/*
-	 * Progress Dialog
-	 * */
-	ProgressDialog progressDialog;
+public class MainActivity extends BaseGeneralActivity {
 
-	/*
-	 * Getter de Progress Dialog
-	 * */
-	public ProgressDialog getProgressDialog() {
-		return progressDialog;
-	}
-	
-	/*
-	 * Setter de Progress Dialog
-	 * */
-	public void setProgressDialog(ProgressDialog progressDialog) {
-		this.progressDialog = progressDialog;
-	}
+    /**
+     * Private elements
+     * */
+	WebView lanesWebView;
+	ProgressDialog loadingProgressDialog;
 
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
-        //ParseAnalytics.trackAppOpened(getIntent());
 
-        Configure();
-        Load();
+        Configura();
+        Carga();
     }
-	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.activity_main, menu);
 		return true;
 	}
-
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		setLog("Seleccion " + item.getTitle());
@@ -66,9 +45,10 @@ public class MainActivity extends GeneralActivity {
 	    }
 	}
 
+
 	private void Reload() {
-		Cleans();
-        Load();
+		Limpia();
+        Carga();
         RateValidate();
 	}
 
@@ -116,41 +96,49 @@ public class MainActivity extends GeneralActivity {
 		setBooleanKeyValue(R.string.preferences_rate_notified, true);
 	}
 
-	protected void Configure() {
-		
+    private void generateProgressDialog(String titleDialog, String messageWait) {
+        loadingProgressDialog = new ProgressDialog(this);
+        loadingProgressDialog.setTitle(titleDialog);
+        loadingProgressDialog.setMessage(messageWait);
+        loadingProgressDialog.show();
+    }
+
+
+	protected void Configura() {
 		setTag("GARITASTIJUANA");
 		
-		wv = (WebView) findViewById(R.id.webview);
-		wv.getSettings().setJavaScriptEnabled(true);
-		wv.setWebViewClient(new WebViewClient(){
+		lanesWebView = (WebView) findViewById(R.id.webview);
+        lanesWebView.getSettings().setJavaScriptEnabled(true);
+        lanesWebView.setWebViewClient(new WebViewClient(){
 			@Override
 			public void onPageFinished(WebView view, String url) {
-				super.onPageFinished(view, url);
-				if(progressDialog != null)
-					progressDialog.dismiss();
+                super.onPageFinished(view, url);
+				if(loadingProgressDialog!= null) loadingProgressDialog.dismiss();
 			}
 		});
 	}
 	
-	protected void Load() {
-		Toasty((String) getText(R.string.message_cargando));
+	protected void Carga() {
 		if (HayInternet())
-		{	
-			progressDialog = new ProgressDialog(this);
-			progressDialog.setTitle(getString(R.string.message_cargando));
-			progressDialog.setMessage(getString(R.string.message_wait));
-			progressDialog.show();
-			wv.loadUrl((String) getText(R.string.url_garitastijuana));
-			wv.scrollTo(0, 0);
+		{
+            generateProgressDialog(getString(R.string.message_cargando), getString(R.string.message_wait));
+
+            lanesWebView.getSettings();
+            lanesWebView.setBackgroundColor(0);
+
+            lanesWebView.loadUrl((String) getText(R.string.url_garitastijuana));
+            lanesWebView.scrollTo(0, 0);
 		}
         else
         {
         	Toasty((String) getText(R.string.message_nointernet));
         }
 	}
-	
-	protected void Cleans() {
-		wv.loadUrl((String) getText(R.string.url_blank));
+
+    protected void Limpia() {
+        lanesWebView.loadUrl((String) getText(R.string.url_blank));
+        lanesWebView.getSettings();
+        lanesWebView.setBackgroundColor(0);
 	}
 
 }

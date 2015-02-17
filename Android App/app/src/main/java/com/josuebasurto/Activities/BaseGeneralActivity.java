@@ -13,7 +13,7 @@ import android.net.NetworkInfo;
 import android.util.Log;
 import android.widget.Toast;
 
-public class GeneralActivity extends Activity {
+public class BaseGeneralActivity extends Activity {
 	
 	private String TAG = "NO_TAG_SET";
 	
