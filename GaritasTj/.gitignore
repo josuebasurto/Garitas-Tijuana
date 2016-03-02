@@ -1,8 +1,8 @@
 *.iml
 .gradle
-/local.properties
-/.idea/workspace.xml
-/.idea/libraries
+/GaritasTj/local.properties
+/GaritasTj/.idea/workspace.xml
+/GaritasTj/.idea/libraries
 .DS_Store
-/build
-/captures
+/GaritasTj/build
+/GaritasTj/captures
