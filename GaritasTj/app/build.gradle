@@ -23,8 +23,8 @@ android {
         applicationId "com.garitas.tijuana"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
+        versionCode 7
+        versionName "1.7"
     }
     buildTypes {
         release {

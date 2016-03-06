@@ -26,6 +26,7 @@ public class MainActivity extends GenericAppCompatActivity {
 	private GoogleApiClient client;
 	private ProgressDialog progressDialog;
 	private WebView wv;
+	private AdView mAdView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +42,9 @@ public class MainActivity extends GenericAppCompatActivity {
 	}
 
 	private void LoadAds() {
-		AdView mAdView = (AdView) findViewById(R.id.adView);
+		mAdView = (AdView) findViewById(R.id.adView);
 		AdRequest adRequest = new AdRequest.Builder().build();
 		mAdView.loadAd(adRequest);
-
 	}
 
 	@Override
@@ -102,6 +102,33 @@ public class MainActivity extends GenericAppCompatActivity {
 		{
 			Toasty((String) getText(R.string.message_nointernet));
 		}
+	}
+
+	/** Called when leaving the activity */
+	@Override
+	public void onPause() {
+		if (mAdView != null) {
+			mAdView.pause();
+		}
+		super.onPause();
+	}
+
+	/** Called when returning to the activity */
+	@Override
+	public void onResume() {
+		super.onResume();
+		if (mAdView != null) {
+			mAdView.resume();
+		}
+	}
+
+	/** Called before the activity is destroyed */
+	@Override
+	public void onDestroy() {
+		if (mAdView != null) {
+			mAdView.destroy();
+		}
+		super.onDestroy();
 	}
 
 	protected void Configure() {

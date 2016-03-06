@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="app_name">Garitas Tj</string>
-    <string name="message_cargando">Cargando</string>
-    <string name="message_nointernet">¡No hay Internet!</string>
-    <string name="message_wait">Espera</string>
-</resources>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest package="com.garitas.tijuana"
-          android:versionCode="8"
-          android:versionName="1.8"
+          android:versionCode="7"
+          android:versionName="1.7"
           xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+
 
 
     <application
@@ -30,6 +31,7 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version"/>
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="a01811caab790392c351f4ab75837d4764a9512a" />
