@@ -11,6 +11,17 @@ Problemas:
 ==============
 Reportar aqui: https://github.com/josuebasurto/GaritasTijuanaAndroidApp/issues
 
-Version 1.0
+Open Beta Program
 ==============
-- pendiente por revisar
+Entra al open beta program: https://play.google.com/apps/testing/com.garitas.tijuana
+
+Version 1.8 (En construccion)
+==============
+- Se agrega custom Crashlytics Events
+
+Version 1.7
+==============
+- Codigo Depurado
+- Se retira Parse
+- Se agrega AdMob
+- Se agrega Fabric

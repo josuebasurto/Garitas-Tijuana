@@ -1,15 +1,16 @@
-package com.garitas.tijuana;
+package com.garitas.tijuana.Activities;
 
 import android.app.ProgressDialog;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
-import com.garitas.tijuana.bases.GenericAppCompatActivity;
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.CustomEvent;
+import com.garitas.tijuana.R;
+import com.garitas.tijuana.bases.Activities.GenericAppCompatActivity;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.appindexing.Action;
@@ -132,7 +133,7 @@ public class MainActivity extends GenericAppCompatActivity {
 	}
 
 	protected void Configure() {
-
+		Answers.getInstance().logCustom(new CustomEvent("App Launched"));
 		wv = (WebView) findViewById(R.id.webView);
 		wv.getSettings().setJavaScriptEnabled(true);
 		wv.setWebViewClient(new WebViewClient() {
@@ -142,6 +143,7 @@ public class MainActivity extends GenericAppCompatActivity {
 				super.onPageFinished(view, url);
 				if (progressDialog != null)
 					progressDialog.dismiss();
+				Answers.getInstance().logCustom(new CustomEvent("Information Loaded"));
 			}
 		});
 	}

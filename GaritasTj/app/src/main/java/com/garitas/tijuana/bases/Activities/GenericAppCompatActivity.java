@@ -1,9 +1,7 @@
-package com.garitas.tijuana.bases;
+package com.garitas.tijuana.bases.Activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
-
-import com.garitas.tijuana.MainActivity;
 
 /**
  * Created by josuebasurto on 3/6/16.
