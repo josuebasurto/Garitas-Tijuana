@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">Garitas Tj</string>
+    <string name="app_name" translatable="false">Garitas Tj</string>
+    <string name="message_cargando">Loading</string>
+    <string name="message_wait">Wait</string>
+    <string name="url_garitastijuana" translatable="false">http://www.garitas-tijuana.com/</string>
+    <string name="message_nointernet">There\'s no Internet!</string>
+    <string name="banner_ad_unit_id" translatable="false">ca-app-pub-9875316162463335</string>
 </resources>

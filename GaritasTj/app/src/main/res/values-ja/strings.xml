@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Garitas Tj</string>
+    <string name="message_cargando">ロード情報</string>
+    <string name="message_nointernet">接続なし！</string>
+    <string name="message_wait">待つ</string>
+</resources>
