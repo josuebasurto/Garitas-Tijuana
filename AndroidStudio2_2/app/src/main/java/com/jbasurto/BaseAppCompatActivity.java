@@ -1,6 +1,8 @@
 package com.jbasurto;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
@@ -14,10 +16,13 @@ import android.widget.Toast;
 public class BaseAppCompatActivity extends AppCompatActivity {
 
 	private String _tag;
+	private Context mContext;
 
 	public BaseAppCompatActivity() {
 		_tag = "Untagged";
 	}
+
+
 
 	protected String getTag() {
 		return _tag;
@@ -49,5 +54,29 @@ public class BaseAppCompatActivity extends AppCompatActivity {
 			ShortToast("Ups! " + e.getMessage());
 		}
 		return false;
+	}
+
+	protected String GetAppVersion(){
+		try {
+			PackageInfo _info = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0);
+			return _info.versionName;
+		} catch (PackageManager.NameNotFoundException e) {
+			e.printStackTrace();
+			return "";
+		}
+	}
+
+	protected int GetVersionCode(){
+		try {
+			PackageInfo _info = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0);
+			return _info.versionCode;
+		} catch (PackageManager.NameNotFoundException e) {
+			e.printStackTrace();
+			return -1;
+		}
+	}
+
+	protected void setContext(Context context) {
+		this.mContext = context == null ? getApplicationContext() : context;
 	}
 }

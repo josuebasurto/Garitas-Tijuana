@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.ContentViewEvent;
 import com.garitas.tijuana.R;
 import com.jbasurto.BaseAppCompatActivity;
 
@@ -38,6 +40,8 @@ public class WebPageViewActivity extends BaseAppCompatActivity {
 		wv_garitas = (WebView) findViewById(R.id.wv_garitas);
 		progressDialog = new ProgressDialog(getApplicationContext());
 
+		String url = (String) getText(R.string.url_garitastijuana) + GetAppVersion() + " " + GetVersionCode();
+
 		wv_garitas.getSettings().setJavaScriptEnabled(true);
 		wv_garitas.setWebViewClient(new WebViewClient(){
 			@Override
@@ -56,8 +60,15 @@ public class WebPageViewActivity extends BaseAppCompatActivity {
 			progressDialog.setTitle(getString(R.string.message_cargando));
 			progressDialog.setMessage(getString(R.string.message_wait));
 			progressDialog.show();
-			Log("Obteniendo Pagina");
-			wv_garitas.loadUrl((String) getText(R.string.url_garitastijuana));
+			Log("Obteniendo Pagina " + url);
+
+			Answers.getInstance().logContentView(new ContentViewEvent()
+					.putContentName("Carga")
+					.putContentType("Web")
+					.putContentId("1"));
+
+
+			wv_garitas.loadUrl(url);
 			wv_garitas.scrollTo(0, 0);
 			Log("Fin de Obtencion");
 
