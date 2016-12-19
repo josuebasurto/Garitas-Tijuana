@@ -40,7 +40,10 @@ public class WebPageViewActivity extends BaseAppCompatActivity {
 		wv_garitas = (WebView) findViewById(R.id.wv_garitas);
 		progressDialog = new ProgressDialog(getApplicationContext());
 
-		String url = (String) getText(R.string.url_garitastijuana) + GetAppVersion() + " " + GetVersionCode();
+		String url = (String) getText(R.string.url_garitastijuana) +
+				"?Ref=AndroidApp"+
+				"&AppVersion" + GetAppVersion() +
+				"&VersionCodo=" + GetVersionCode();
 
 		wv_garitas.getSettings().setJavaScriptEnabled(true);
 		wv_garitas.setWebViewClient(new WebViewClient(){
