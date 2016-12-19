@@ -1,0 +1,37 @@
+<resources>
+
+    <string name="app_name">Garitas Tj</string>
+
+    <string name="menu_settings">What else?</string>
+    <string name="menu_share_the_love">Share App</string>
+    <string name="menu_show_the_love">Rate App</string>
+    <string name="menu_refresh_the_lines">Refresh</string>
+
+    <string name="title_activity_main">Garitas Tj</string>
+    <string name="title_share">Share Garitas Tj</string>
+
+    <string name="message_cargando">Loading information</string>
+    <string name="message_termino">Finnished</string>
+    <string name="message_nointernet">Ups, no internet</string>
+    <string name="message_gracias">Thank You!</string>
+    <string name="message_error">Ups!</string>
+    <string name="message_share">Using Garitas Tj!</string>
+    <string name="message_wait">Wait</string>
+
+    <string name="url_googleplay_app">https://play.google.com/store/apps/details?id=com.garitas.tijuana</string>
+    <string name="url_googleplay_marketapp">market://details?id=com.garitas.tijuana</string>
+    <string name="url_garitastijuana">http://garitas-tijuana.com</string>
+    <string name="url_blank">about:blank</string>
+
+    <string name="preferences_file_key">com.garitas.tijuana</string>
+
+    <string name="preferences_date">com.garitas.tijuana.install.date</string>
+    <string name="preferences_rate_notified">com.garitas.tijuana.rate.notified</string>
+
+    <string name="preferences_used_times">com.garitas.tijuana.userd.times</string>
+
+    <string name="dialogs_rate_title">Rate us</string>
+    <string name="dialogs_rate_message">Take a second to rate our app.</string>
+    <string name="dialogs_rate_yes">Sure</string>
+    <string name="dialogs_rate_no">Later</string>
+</resources>
